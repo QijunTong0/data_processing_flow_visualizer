@@ -9,7 +9,10 @@
         ]
     },
     "sql": {
+        "suffix": " (.*) ",
         "input_pattern": [],
-        "output_pattern": []
+        "output_pattern": [
+            "CREATE TABLE"
+        ]
     }
 }

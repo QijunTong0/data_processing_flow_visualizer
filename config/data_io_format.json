@@ -1,0 +1,15 @@
+{
+    "python": {
+        "suffix": "\\(\"([^\"]*)\"",
+        "input_pattern": [
+            "pd.read_csv"
+        ],
+        "output_pattern": [
+            "to_csv"
+        ]
+    },
+    "sql": {
+        "input_pattern": [],
+        "output_pattern": []
+    }
+}

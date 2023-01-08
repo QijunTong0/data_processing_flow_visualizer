@@ -11,7 +11,10 @@ You can customize syntaxes by changing `config/data_io_format.json`
   - MySQL
   - PostgresSQL
   - Sqlite
-
+## Requirements
+- `sql-meta`
+- `pygraphviz`
+- `networkx`
 # Usage
 ## Bulid data processing graph.
 ```Python

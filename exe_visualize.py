@@ -3,8 +3,8 @@ import src.dpfv_lib
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        prog='DPF_visualizer_exe.py',  # プログラム名
-        usage='if you want to build a data processing flow graph of a repository : python exe.py repository_name',  # プログラムの利用方法
+        prog='DPF_visualizer_exe.py',
+        usage='if you want to build a data processing flow graph of a repository : python exe.py repository_name',
     )
     parser.add_argument('-r', '--repository_path', type=str,
                         help='The repository to build graph.')

@@ -167,10 +167,10 @@ class data_processing_flow_dag:
         g_nx_sql = nx.DiGraph()
         g_nx_sql.add_edges_from(self.sql_graph.edges())
         if list(nx.simple_cycles(g_nx_py)):
-            print("WARNING: A cycle in python data processing flow graph is detected. This means there is circular reference of data.")
+            print("WARNING: A cycle as below in python data processing flow graph is detected. \nThis means there is circular reference of data.")
             print(list(nx.simple_cycles(g_nx_py)))
         if list(nx.simple_cycles(g_nx_sql)):
-            print("WARNING: A cycle in sql data processing flow graph is detected. This means there is circular reference of tables.")
+            print("WARNING: A cycle as below in sql data processing flow graph is detected. \nThis means there is circular reference of tables.")
             print(list(nx.simple_cycles(g_nx_sql)))
 
     def detect_conflict_writing_data(self):
@@ -184,10 +184,10 @@ class data_processing_flow_dag:
         for node in g_nx_py.nodes:
             if not node.endswith((".py", ".ipynb")):
                 if len(list(g_nx_py.predecessors(node))) > 1:
-                    print("WARNING:A conflict writing data process is detected."
-                          + "This means there are multiple python files attempting to write the same named data.")
+                    print("WARNING:A conflict writing data process is detected.\n"
+                          + "This means there are multiple python files attempting to write "+node)
         for node in g_nx_sql.nodes:
             if not node.endswith((".sql")):
                 if len(list(g_nx_sql.predecessors(node))) > 1:
-                    print("WARNING:A conflict writing data process is detected. "
-                          + "This means there are multiple sql files attempting to write the same named data.")
+                    print("WARNING:A conflict writing data process is detected. \n"
+                          + "This means there are multiple sql files attempting to write to write "+node)

@@ -157,3 +157,33 @@ class data_processing_flow_dag:
         if self.sql_graph:
             self.sql_graph.draw(
                 save_path+Path(self.repository_path).name+"_sql.svg", prog="dot")
+
+    def detect_cycle(self):
+        """
+        Detect cycle of data processing flow for preventing unexpected modifications of data.
+        """
+        g_nx_py = nx.DiGraph().add_nodes_from(self.py_graph.edges())
+        g_nx_sql = nx.DiGraph().add_nodes_from(self.sql_graph.edges())
+        if list(nx.simple_cycles(g_nx_py)):
+            print("WARNING: A cycle in python data processing flow graph is detected. This means there is circular reference of data.")
+            print(list(nx.simple_cycles(g_nx_py)))
+        if list(nx.simple_cycles(g_nx_sql)):
+            print("WARNING: A cycle in sql data processing flow graph is detected. This means there is circular reference of tables.")
+            print(list(nx.simple_cycles(g_nx_sql)))
+
+    def detect_conflict_writing_data(self):
+        """
+        Detect conflict of writing the same named data for preventing unexpected modifications of data.
+        """
+        g_nx_py = nx.DiGraph().add_nodes_from(self.py_graph.edges())
+        g_nx_sql = nx.DiGraph().add_nodes_from(self.sql_graph.edges())
+        for node in g_nx_py.nodes():
+            if not node.endswith((".py", ".ipynb")):
+                if list(g_nx_py.predecessors(node)) > 1:
+                    print("WARNING:A conflict writing data process is detected."
+                          + "This means there are multiple python files attempting to write the same named data.")
+        for node in g_nx_sql.nodes():
+            if not node.endswith((".py", ".ipynb")):
+                if list(g_nx_py.predecessors(node)) > 1:
+                    print("WARNING:A conflict writing data process is detected. "
+                          + "This means there are multiple sql files attempting to write the same named data.")

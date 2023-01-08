@@ -7,7 +7,7 @@ import glob
 import matplotlib.pyplot as plt
 import networkx as nx
 import pygraphviz as pgv
-json_path = "../config/data_io_format.json"
+json_path = os.path.dirname(__file__)+"/../config/data_io_format.json"
 with open(json_path) as f:
     io_format = json.load(f)
 
@@ -150,20 +150,22 @@ class data_processing_flow_dag:
         Default : The graph is saved at data_processing_flow_graph folder the repository directory
         """
         if save_path == None:
-            save_path = self.repository_path+"/"
+            save_path = os.path.abspath(self.repository_path)+"/"
         if self.py_graph:
             self.py_graph.draw(
-                save_path+Path(self.repository_path).name+"_py.svg", prog="dot")
+                save_path+Path(self.repository_path).name+"_py.svg", prog="dot", format="svg")
         if self.sql_graph:
             self.sql_graph.draw(
-                save_path+Path(self.repository_path).name+"_sql.svg", prog="dot")
+                save_path+Path(self.repository_path).name+"_sql.svg", prog="dot", format="svg")
 
     def detect_cycle(self):
         """
         Detect cycle of data processing flow for preventing unexpected modifications of data.
         """
-        g_nx_py = nx.DiGraph().add_nodes_from(self.py_graph.edges())
-        g_nx_sql = nx.DiGraph().add_nodes_from(self.sql_graph.edges())
+        g_nx_py = nx.DiGraph()
+        g_nx_py.add_edges_from(self.py_graph.edges())
+        g_nx_sql = nx.DiGraph()
+        g_nx_sql.add_edges_from(self.sql_graph.edges())
         if list(nx.simple_cycles(g_nx_py)):
             print("WARNING: A cycle in python data processing flow graph is detected. This means there is circular reference of data.")
             print(list(nx.simple_cycles(g_nx_py)))
@@ -175,15 +177,17 @@ class data_processing_flow_dag:
         """
         Detect conflict of writing the same named data for preventing unexpected modifications of data.
         """
-        g_nx_py = nx.DiGraph().add_nodes_from(self.py_graph.edges())
-        g_nx_sql = nx.DiGraph().add_nodes_from(self.sql_graph.edges())
-        for node in g_nx_py.nodes():
+        g_nx_py = nx.DiGraph()
+        g_nx_py.add_edges_from(self.py_graph.edges())
+        g_nx_sql = nx.DiGraph()
+        g_nx_sql.add_edges_from(self.sql_graph.edges())
+        for node in g_nx_py.nodes:
             if not node.endswith((".py", ".ipynb")):
-                if list(g_nx_py.predecessors(node)) > 1:
+                if len(list(g_nx_py.predecessors(node))) > 1:
                     print("WARNING:A conflict writing data process is detected."
                           + "This means there are multiple python files attempting to write the same named data.")
-        for node in g_nx_sql.nodes():
-            if not node.endswith((".py", ".ipynb")):
-                if list(g_nx_py.predecessors(node)) > 1:
+        for node in g_nx_sql.nodes:
+            if not node.endswith((".sql")):
+                if len(list(g_nx_sql.predecessors(node))) > 1:
                     print("WARNING:A conflict writing data process is detected. "
                           + "This means there are multiple sql files attempting to write the same named data.")

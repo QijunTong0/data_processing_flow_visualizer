@@ -1,5 +1,5 @@
 import argparse
-import dpfv_lib
+import src.dpfv_lib
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -12,7 +12,7 @@ if __name__ == '__main__':
                         help='If True,contains full path at nodes nome in graph.')
 
     args = parser.parse_args()
-    instance = dpfv_lib.data_processing_flow_dag(
+    instance = src.dpfv_lib.data_processing_flow_dag(
         repository_path=args.repository_path, show_directory=args.show_directory)
     instance.build_py_graph()
     instance.build_sql_graph()

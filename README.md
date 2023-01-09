@@ -30,7 +30,7 @@ To prevent unexpected data modifications, `exe_visualize.py` shall raise warning
 
 # Exsample
 
-![Test Image 1](test_repository/test_repository_py.svg)"
+![Test Image 1](test_repository/test_repository_py.svg)
 # 
 ![Test Image 2](test_repository/test_repository_sql.svg)
 # 

@@ -37,7 +37,7 @@ exe_visualize.py -r test_repository -s True
 ![Test Image 2](test_repository/test_repository_sql.svg)
 # 
 ```Python
-exe_visualize.py -r test_repository -s True
+exe_visualize.py -r test_repository_bad -s True
 ```
 ![Test Image 3](test_repository_bad/test_repository_bad_py.svg)
 

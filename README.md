@@ -16,7 +16,7 @@ You can customize syntaxes by changing `config/data_io_format.json`
 - `pygraphviz`
 - `networkx`
 # Usage
-## Bulid data processing graph.
+## Bulid data processing graphs
 ```Python
 exe_visualize.py -r repository -s True
 ```
@@ -29,11 +29,16 @@ To prevent unexpected data modifications, `exe_visualize.py` shall raise warning
 - Writing to the same data by multiple scripts
 
 # Exsample
-
+```Python
+exe_visualize.py -r test_repository -s True
+```
 ![Test Image 1](test_repository/test_repository_py.svg)
 # 
 ![Test Image 2](test_repository/test_repository_sql.svg)
 # 
+```Python
+exe_visualize.py -r test_repository -s True
+```
 ![Test Image 3](test_repository_bad/test_repository_bad_py.svg)
 
 ```

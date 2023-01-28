@@ -28,7 +28,7 @@ To prevent unexpected data modifications, `exe_visualize.py` shall raise warning
 - Circular reference of data
 - Writing to the same data by multiple scripts
 
-# Exsample
+# Example
 ```Python
 exe_visualize.py -r test_repository -s True
 ```
